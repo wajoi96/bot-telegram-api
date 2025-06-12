@@ -5,7 +5,6 @@ from firebase_admin import firestore
 app = Flask(__name__)
 
 # === Setup Firebase Admin SDK ===
-# Best practice: use Application Default Credentials (ADC)
 firebase_admin.initialize_app()
 
 db = firestore.client()

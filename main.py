@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import firestore
 
 app = Flask(__name__)
 
 # === Setup Firebase Admin SDK ===
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+# Best practice: use Application Default Credentials (ADC)
+firebase_admin.initialize_app()
 
 db = firestore.client()
 
@@ -15,7 +15,7 @@ db = firestore.client()
 def update_signal():
     data = request.json
     pair = data.get('pair')
-    sentiment = data.get('sentiment')
+    sentiment = data.get('sentiment') or data.get('sentimen')  # support dua2 field
 
     if not pair or not sentiment:
         return jsonify({
@@ -36,5 +36,3 @@ def update_signal():
         'pair': pair,
         'sentiment': sentiment
     })
-
-# === NO app.run() here! ===
